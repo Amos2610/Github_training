@@ -1,6 +1,7 @@
 import launch
 from launch import LaunchDescription
 from launch_ros.actions import Node
+from launch.actions import ExecuteProcess, TimerAction
 
 def generate_launch_description():
     return LaunchDescription([
@@ -21,18 +22,26 @@ def generate_launch_description():
                     output='screen',  # 出力をターミナルに表示
                     parameters=[  # パラメータの設定
                         {
+                            #背景の色を変更（A班）
                             'background_r': 255,
                             'background_g': 255,
-                            'background_b': 0
+                            'background_b': 0,
+                            #初期位置を変更(B班)
+                            'x': 5.0,
+                            'y': 5.0,
+                            'z': 5.0
                         }
                     ]
-                ),
-                Node(
-                    package='turtlesim',  # 正しいパッケージ名
-                    executable='turtle_teleop_key',  # ノードを起動する名前
-                    name='teleop',  # ノード名
-                    output='screen',  # 出力をターミナルに表示
-                    prefix="xterm -e"  # xtermで実行
+                )
+            ]
+        ),
+        #亀を動かすトピックを呼び出す
+        TimerAction(
+            period=1.0, #1秒ごとに行う
+            actions=[
+                ExecuteProcess(
+                    cmd=['ros2', 'topic', 'pub', '/turtle1/cmd_vel', 'geometry_msgs/msg/Twist', '{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}'], #動き方を変更（C班）
+                    output='screen'
                 )
             ]
         )
