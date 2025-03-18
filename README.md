@@ -56,7 +56,7 @@ source install/setup.bash
 ```
 ## 実行方法
 ```bash
-ros2 launch my_turtle_package myturtlesim.lauch,py
+ros2 launch my_turtle_package myturtlesim.lauch.py
 ```
 
 
